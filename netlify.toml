@@ -1,4 +1,4 @@
 [build]
   base = "packages/studio"
-  publish = "packages/studio/dist"
+  publish = "dist"
   command = "npm --workspace studio run build"
