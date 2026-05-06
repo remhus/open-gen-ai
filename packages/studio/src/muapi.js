@@ -146,7 +146,7 @@ export async function processLipSync(apiKey, params) {
 
 export function uploadFile(apiKey, file, onProgress) {
     return new Promise((resolve, reject) => {
-        const url = `${BASE_URL}/api/v1/upload_file`;
+        const url = `/api/api/v1/upload_file`;
         const formData = new FormData();
         formData.append('file', file);
 
