@@ -106,6 +106,7 @@
     "ai-agent": "file:./packages/Open-Poe-AI/packages/agents"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.10",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/vite": "^4.1.18",
     "autoprefixer": "^10.4.24",
