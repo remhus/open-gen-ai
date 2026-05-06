@@ -46,13 +46,16 @@ export async function POST(request, { params }) {
     const slug = await params;
     const pathSegments = slug.path || [];
     const path = pathSegments.join('/');
-    
+
     const { search } = new URL(request.url);
     const targetUrl = `${MUAPI_BASE}/api/v1/${path}${search}`;
 
-    const headers = cleanHeaders(request);
     const apiKey = getApiKey(request);
+    const contentType = request.headers.get('content-type');
+
+    const headers = new Headers();
     if (apiKey) headers.set('x-api-key', apiKey);
+    if (contentType) headers.set('content-type', contentType);
 
     try {
         const body = await request.arrayBuffer();
