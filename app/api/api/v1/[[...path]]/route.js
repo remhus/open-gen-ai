@@ -51,14 +51,26 @@ export async function POST(request, { params }) {
     const targetUrl = `${MUAPI_BASE}/api/v1/${path}${search}`;
 
     const apiKey = getApiKey(request);
-    const contentType = request.headers.get('content-type');
-
     const headers = new Headers();
     if (apiKey) headers.set('x-api-key', apiKey);
-    if (contentType) headers.set('content-type', contentType);
 
     try {
-        const body = await request.arrayBuffer();
+        let body;
+        const contentType = request.headers.get('content-type') || '';
+        if (contentType.includes('multipart/form-data')) {
+            // Reconstruct FormData so fetch sets the content-type boundary itself
+            const incoming = await request.formData();
+            const outgoing = new FormData();
+            for (const [key, value] of incoming.entries()) {
+                outgoing.append(key, value);
+            }
+            body = outgoing;
+            // Do NOT set content-type — fetch sets it automatically with the correct boundary
+        } else {
+            headers.set('content-type', contentType);
+            body = await request.arrayBuffer();
+        }
+
         const response = await fetch(targetUrl, { method: 'POST', headers, body });
         const data = await response.json();
         return NextResponse.json(data, { status: response.status });
