@@ -1,4 +1,6 @@
 [build]
-  base = "packages/studio"
-  publish = "dist"
-  command = "npm --workspace studio run build"
+  command = "git submodule update --init --recursive && npm run build:packages && npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
